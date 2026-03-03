@@ -1,0 +1,22 @@
+# 数据集与音源
+data/
+*.sf2
+
+# 模型权重
+checkpoints/
+*.pth
+*.pt
+
+# 日志与缓存
+logs/
+__pycache__/
+*.pyc
+
+# 评估与听测生成的音频
+eval_results/
+listening_test/
+*.wav
+
+# 系统与环境
+.DS_Store
+.ipynb_checkpoints/

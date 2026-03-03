@@ -1,0 +1,34 @@
+# ==============================================================================
+# Neuro-Physical Piano Synthesis - Global Configuration
+# ==============================================================================
+
+experiment:
+  name: "pedal_unet_dry_v1" 
+  description: "Training PedalNet (Perception Module) on DRY MAESTRO v3"
+
+data:
+  # Paths should be relative to the project root or absolute
+  root_dir: "./data/maestro-v3.0.0"   # Original MAESTRO dataset with MIDI
+  dry_dir: "./data/maestro_dry"       # Anechoic (Dry) synthesized WAVs
+  sr: 16000                           # Target sample rate (16kHz for efficient DSP)
+  segment_seconds: 4.0                # Training chunk duration
+  hop_length: 160                     # 10ms frame resolution (16000 / 160)
+  num_workers: 4                      # DataLoader workers
+
+model:
+  in_channels: 1                      # Mono Mel-spectrogram input
+  out_channels: 1                     # Continuous pedal probability [0, 1]
+
+training:
+  batch_size: 16
+  learning_rate: 0.0001               # Initial LR for AdamW
+  num_epochs: 100
+  save_interval: 5                    # Checkpoint saving frequency
+  log_interval: 10                    # TensorBoard logging frequency (steps)
+  resume_checkpoint: ""               # Path to resume training (if any)
+
+audio_processing:
+  n_fft: 2048                         # FFT window size
+  n_mels: 229                         # High-resolution Mel bands for piano harmonics
+  fmin: 30                            # Minimum frequency (Piano A0 ~ 27.5Hz)
+  fmax: 8000                          # Nyquist frequency

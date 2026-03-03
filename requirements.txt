@@ -1,0 +1,24 @@
+# PyTorch Ecosystem
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Audio & DSP Processing
+librosa>=0.10.0
+soundfile>=0.12.1
+scipy>=1.10.0
+
+# Data & MIDI Handling
+numpy>=1.23.0
+pandas>=2.0.0
+pretty_midi>=0.2.10
+
+# Evaluation Metrics
+scikit-learn>=1.2.0
+frechet_audio_distance>=0.3.0
+
+# Experiment & Workflow
+PyYAML>=6.0
+tqdm>=4.65.0
+tensorboard>=2.13.0
+matplotlib>=3.7.0
+jupyter>=1.0.0
