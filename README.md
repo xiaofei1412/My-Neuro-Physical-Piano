@@ -42,6 +42,11 @@ FluidSynth is required to render the anechoic (dry) piano audio baseline.
 
 ---
 
+## 🎧 Audio Demos
+Listen to the synthesized results here: **[Interactive Listening Test Demo](https://xiaofei1412.github.io/NPPS-Demo/)**
+
+---
+
 ## 🚀 Usage Guide
 
 ### 1. Data Preparation
