@@ -111,7 +111,7 @@ If you find this code useful in your research, please consider citing our work:
 ```bibtex
 @inproceedings{chen2026neurophysical,
   title={Bridging the Gap: From Neural Perception to Acoustic Rendering in Piano Sustain},
-  author={Chen, Felix and [Co-authors]},
+  author={Chen, Xiaofei and [Co-authors]},
   booktitle={Proceedings of the International Society for Music Information Retrieval Conference (ISMIR)},
   year={2026}
 }
