@@ -44,10 +44,11 @@ class PinkNoiseIR(nn.Module):
     Generates a physics-informed impulse response utilizing dual-stage decay
     envelopes (prompt sound and after-sound) and specific body resonances.
     """
-    def __init__(self, sr=16000, duration=4.0):
+    def __init__(self, sr=16000, duration=4.0, use_dual_stage=True):
         super().__init__()
         self.sr = sr
         self.duration = duration
+        self.use_dual_stage = use_dual_stage
         ir = self._generate_ir()
         self.register_buffer('ir', torch.from_numpy(ir).float().view(1, 1, -1))
 
@@ -66,13 +67,11 @@ class PinkNoiseIR(nn.Module):
         noise = self._generate_pink_noise(n_samples)
         nyquist = self.sr / 2
         
-        # High-pass filter to prevent low-frequency build-up (muddy sound)
         b_hp, a_hp = scipy.signal.butter(2, 100 / nyquist, btype='high')
         noise = scipy.signal.lfilter(b_hp, a_hp, noise)
         
         t = np.linspace(0, self.duration, n_samples)
         
-        # Frequency band splitting
         b_low, a_low = scipy.signal.butter(2, 200/nyquist, btype='low')
         b_mid, a_mid = scipy.signal.butter(2, [200/nyquist, 3000/nyquist], btype='band')
         b_high, a_high = scipy.signal.butter(2, 3000/nyquist, btype='high')
@@ -81,10 +80,16 @@ class PinkNoiseIR(nn.Module):
         noise_mid = scipy.signal.lfilter(b_mid, a_mid, noise)
         noise_high = scipy.signal.lfilter(b_high, a_high, noise)
         
-        # Dual-stage decay modeling
-        decay_low = 0.7 * np.exp(-6.0 * t) + 0.3 * np.exp(-1.5 * t)
-        decay_mid = 0.5 * np.exp(-5.0 * t) + 0.5 * np.exp(-2.5 * t)
-        decay_high = 0.8 * np.exp(-8.0 * t) + 0.2 * np.exp(-4.0 * t)
+        if self.use_dual_stage:
+            # Full NPPS: Dual-stage decay
+            decay_low = 0.7 * np.exp(-6.0 * t) + 0.3 * np.exp(-1.5 * t)
+            decay_mid = 0.5 * np.exp(-5.0 * t) + 0.5 * np.exp(-2.5 * t)
+            decay_high = 0.8 * np.exp(-8.0 * t) + 0.2 * np.exp(-4.0 * t)
+        else:
+            # Ablation: Standard single-stage exponential decay
+            decay_low = np.exp(-3.5 * t)
+            decay_mid = np.exp(-4.0 * t)
+            decay_high = np.exp(-8.0 * t)
         
         ir = (noise_low * decay_low * 0.35) + \
              (noise_mid * decay_mid * 0.75) + \
@@ -94,7 +99,6 @@ class PinkNoiseIR(nn.Module):
             b, a = scipy.signal.iirpeak(freq/nyquist, q, gain)
             return scipy.signal.lfilter(b, a, sig)
             
-        # Presence and warmth resonance peaks
         ir = apply_peak(ir, 400, 1.5, 1.5)  
         ir = apply_peak(ir, 1200, 2.0, 2.0) 
         
@@ -108,9 +112,9 @@ class AcousticModel(nn.Module):
     End-to-end acoustic processor combining body resonance via FFT convolution
     and spectral bloom via harmonic excitation.
     """
-    def __init__(self, sr=16000):
+    def __init__(self, sr=16000, use_dual_stage=True):
         super().__init__()
-        self.pink_ir = PinkNoiseIR(sr=sr)
+        self.pink_ir = PinkNoiseIR(sr=sr, use_dual_stage=use_dual_stage)
         self.exciter = HarmonicExciter(sr=sr)
         
     def fft_convolve(self, signal, kernel):

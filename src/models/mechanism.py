@@ -104,16 +104,28 @@ class AdvancedMechanismNoise(nn.Module):
 
 class PedalMechanism(nn.Module):
     """
-    Unified mechanical module integrating LCAST, inertia, and noise envelopes.
+    Unified mechanical module. Supports ablation study via 'use_lcast' flag.
     """
-    def __init__(self, sr=16000, hop_length=160):
+    def __init__(self, sr=16000, hop_length=160, use_lcast=True):
         super().__init__()
-        self.schmitt = LocalAdaptiveSchmittTrigger()
+        self.use_lcast = use_lcast
+        
+        if self.use_lcast:
+            self.schmitt = LocalAdaptiveSchmittTrigger()
+        else:
+            # Ablation fallback: Simple global threshold
+            self.schmitt = None 
+
         self.inertia = AsymmetricInertia(sr, hop_length)
         self.noise_gen = AdvancedMechanismNoise()
 
     def forward(self, raw_probs):
-        binary = self.schmitt(raw_probs)
+        if self.use_lcast:
+            binary = self.schmitt(raw_probs)
+        else:
+            # Ablation: Hard thresholding without local context or hysteresis
+            binary = (raw_probs > 0.5).float()
+            
         position = self.inertia(binary)
         press_gain, release_gain = self.noise_gen(position)
         
