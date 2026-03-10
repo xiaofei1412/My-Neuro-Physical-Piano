@@ -1,15 +1,15 @@
-# Neuro-Physical Piano Sustain Synthesis 🎹
+# Neuro-Physical Piano Synthesis: A Hybrid Framework for Sustain Pedal Acoustic Rendering 🎹
 
 ![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 This repository contains the official implementation of the paper:
-**"Bridging the Gap: From Neural Perception to Acoustic Rendering in Piano Sustain"** *(Submitted to ISMIR)*.
+**"Neuro-Physical Piano Synthesis: A Hybrid Framework for Sustain Pedal Acoustic Rendering"** *(Submitted to ISMIR 2026)*.
 
 ## 📖 Abstract
 
-We propose a novel Neuro-Physical Piano Synthesis (NPPS) framework that accurately models the complex acoustic phenomena of the piano sustain pedal. Unlike traditional end-to-end black-box generative models, our approach disentangles the process into a neural perception module and a deterministic physical acoustic renderer. By introducing the **Local Context-Aware Schmitt Trigger (LCAST)** and a **Dual-Stage Decay Physics Model**, we bridge the gap between abstract neural probabilities and precise mechanical damper states, achieving a Frechet Audio Distance (FAD) of 9.39 without requiring massive computational resources.
+We propose a novel Neuro-Physical Piano Synthesis (NPPS) framework that accurately models the complex acoustic phenomena of the piano sustain pedal. Unlike traditional end-to-end black-box generative models, our approach disentangles the process into a neural perception module and a deterministic physical acoustic renderer. By introducing the **Local Context-Aware Schmitt Trigger (LCAST)** and a **Dual-Stage Decay Physics Model**, we bridge the gap between abstract neural probabilities and precise mechanical damper states, achieving a Frechet Audio Distance (FAD) of 9.88 without requiring massive computational resources.
 
 ## ✨ Core Innovations
 
@@ -19,12 +19,32 @@ We propose a novel Neuro-Physical Piano Synthesis (NPPS) framework that accurate
 
 ---
 
+## 📊 Evaluation & Ablation Study
+
+Our framework was evaluated on the MAESTRO v3 dataset. Compared to the industrial standard (FluidSynth) and internal ablated versions, NPPS demonstrates superior acoustic realism.
+
+| Method | LCAST | Dual-Stage Decay | FAD (↓) |
+| :--- | :---: | :---: | :---: |
+| FluidSynth Wet (Privileged Baseline) | - | - | 11.08 |
+| Ablation: w/o Dual-Stage | ✓ | ✗ | 10.02 |
+| Ablation: w/o LCAST | ✗ | ✓ | 9.88 |
+| **NPPS (Ours - Full)** | ✓ | ✓ | **9.88** |
+
+*Note: The Privileged Baseline utilizes perfect Ground Truth MIDI control signals, whereas our NPPS operates in a completely blind end-to-end manner from dry audio.*
+
+---
+
+## 🎧 Audio Demos
+Listen to the synthesized results here: **[Interactive Listening Test Demo](https://xiaofei1412.github.io/NPPS-Demo/)**
+
+---
+
 ## ⚙️ Installation
 
 **1. Clone the repository:**
 ```bash
-git clone [https://github.com/YOUR_USERNAME/Neuro-Physical-Pedal-Synthesis.git](https://github.com/YOUR_USERNAME/Neuro-Physical-Pedal-Synthesis.git)
-cd Neuro-Physical-Pedal-Synthesis
+git clone [https://github.com/xiaofei1412/My-Neuro-Physical-Piano.git](https://github.com/xiaofei1412/My-Neuro-Physical-Piano.git)
+cd My-Neuro-Physical-Piano
 ```
 
 **2. Install Python dependencies:**
@@ -42,11 +62,6 @@ FluidSynth is required to render the anechoic (dry) piano audio baseline.
 
 ---
 
-## 🎧 Audio Demos
-Listen to the synthesized results here: **[Interactive Listening Test Demo](https://xiaofei1412.github.io/NPPS-Demo/)**
-
----
-
 ## 🚀 Usage Guide
 
 ### 1. Data Preparation
@@ -61,7 +76,6 @@ To train the U-Net model from scratch:
 ```bash
 python scripts/train.py --config configs/default.yaml
 ```
-*Monitor training via TensorBoard: `tensorboard --logdir logs/`*
 
 ### 3. Inference (End-to-End Synthesis)
 Synthesize a wet piano track (with physical resonance) from a single dry WAV file:
@@ -70,17 +84,17 @@ python scripts/inference.py --input path/to/dry.wav --output path/to/wet.wav --c
 ```
 
 ### 4. Objective Evaluation
-Evaluate the framework on the entire test set. Computes F1-Score, High-Frequency Ratio, RMS Energy Correlation, and FAD.
+Evaluate the framework against baselines and perform ablation studies:
 ```bash
-python scripts/evaluate.py --config configs/default.yaml --ckpt checkpoints/best_pedal_net.pth
-```
+# Full Evaluation against FluidSynth
+python scripts/evaluate.py --ablation full --fluidsynth_dir data/maestro_wet_fluidsynth
 
-### 5. Subjective Evaluation (Listening Test)
-Generate an HTML interface containing randomized paired samples (Dry vs. Ours vs. Ground Truth) for blind MOS (Mean Opinion Score) testing:
-```bash
-python scripts/prepare_listening_test.py --samples 15
+# Ablation: without LCAST
+python scripts/evaluate.py --ablation no_lcast
+
+# Ablation: without DUAL STAGE
+python scripts/evaluate.py --ablation no_dual_stage
 ```
-*Open `listening_test/index.html` in your browser.*
 
 ---
 
@@ -115,7 +129,7 @@ python scripts/prepare_listening_test.py --samples 15
 If you find this code useful in your research, please consider citing our work:
 ```bibtex
 @inproceedings{chen2026neurophysical,
-  title={Bridging the Gap: From Neural Perception to Acoustic Rendering in Piano Sustain},
+  title={Neuro-Physical Piano Synthesis: A Hybrid Framework for Sustain Pedal Acoustic Rendering},
   author={Chen, Xiaofei and [Co-authors]},
   booktitle={Proceedings of the International Society for Music Information Retrieval Conference (ISMIR)},
   year={2026}
