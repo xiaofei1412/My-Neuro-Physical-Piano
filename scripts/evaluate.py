@@ -3,8 +3,12 @@ Objective Evaluation Script with Ablation Support.
 Evaluates NPPS against external baselines and internal ablated versions.
 """
 
-import os
 import sys
+# ANTI-HIJACKING SHIELD
+_original_argv = sys.argv.copy()
+sys.argv = [sys.argv[0]]
+
+import os
 import argparse
 import yaml
 import torch
@@ -17,14 +21,16 @@ from scipy.stats import pearsonr
 from sklearn.metrics import f1_score
 from frechet_audio_distance import FrechetAudioDistance
 
-torch.manual_seed(42)
-np.random.seed(42)
-
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(PROJECT_ROOT)
 
 from src.dataset import MaestroDataset
 from src.models import PedalNet, PedalMechanism, AcousticModel
+
+sys.argv = _original_argv
+
+torch.manual_seed(42)
+np.random.seed(42)
 
 class Evaluator:
     def __init__(self, config_path, ckpt_path, ablation, fluidsynth_dir, device='cuda'):
@@ -35,7 +41,6 @@ class Evaluator:
         self.ablation = ablation
         self.fluidsynth_dir = fluidsynth_dir
         
-        # Parse Ablation Flags
         use_lcast = False if ablation == 'no_lcast' else True
         use_dual_stage = False if ablation == 'no_dual_stage' else True
         
@@ -59,8 +64,14 @@ class Evaluator:
     def run_evaluation(self, output_dir="eval_results"):
         ref_dir = os.path.join(output_dir, "ref_real") 
         est_dir = os.path.join(output_dir, f"est_{self.ablation}")
+        
         os.makedirs(ref_dir, exist_ok=True)
         os.makedirs(est_dir, exist_ok=True)
+        
+        fluid_flat_dir = None
+        if self.fluidsynth_dir:
+            fluid_flat_dir = os.path.join(output_dir, "est_fluid")
+            os.makedirs(fluid_flat_dir, exist_ok=True)
         
         dataset = MaestroDataset(root_dir=self.cfg['data']['root_dir'], dry_dir=self.cfg['data'].get('dry_dir'), split='test', segment_seconds=5.0)
         
@@ -77,7 +88,6 @@ class Evaluator:
                 audio_dry = sample['audio'].to(self.device).unsqueeze(0)
                 name = f"{idx:04d}.wav"
                 
-                # Render Ours
                 with torch.no_grad():
                     melspec = torch.log(mel_trans(audio_dry) + 1e-9)
                     probs = self.brain(melspec)
@@ -99,7 +109,6 @@ class Evaluator:
                     if max_val > 0.99: wet_audio = wet_audio / max_val * 0.95
                     wet_np = np.nan_to_num(wet_audio.squeeze().cpu().numpy())
 
-                # Load Ground Truth
                 real_path = os.path.join(dataset.root_dir, dataset.meta_data.iloc[idx]['midi_filename'].replace('.midi', '.wav'))
                 if os.path.exists(real_path):
                     real_audio, _ = sf.read(real_path, start=0, stop=len(wet_np))
@@ -107,20 +116,19 @@ class Evaluator:
                     sf.write(os.path.join(ref_dir, name), real_audio, 16000)
                     metrics['rms_ours'].append(self.safe_rms_corr(real_audio, wet_np))
                 
-                # Load FluidSynth Baseline
                 if self.fluidsynth_dir:
                     fluid_path = os.path.join(self.fluidsynth_dir, dataset.meta_data.iloc[idx]['midi_filename'].replace('.midi', '.wav'))
                     if os.path.exists(fluid_path):
                         fluid_audio, _ = sf.read(fluid_path, start=0, stop=len(wet_np))
                         if fluid_audio.ndim == 2: fluid_audio = fluid_audio.mean(axis=1)
                         metrics['rms_fluid'].append(self.safe_rms_corr(real_audio, fluid_audio))
+                        sf.write(os.path.join(fluid_flat_dir, name), fluid_audio, 16000)
                 
                 sf.write(os.path.join(est_dir, name), wet_np, 16000)
                 
             except Exception as e: 
                 continue
 
-        # --- Report ---
         print("\n" + "="*60)
         print(f"   EVALUATION REPORT: {self.ablation.upper()}   ")
         print("="*60)
@@ -135,7 +143,7 @@ class Evaluator:
             fad_ours = self.frechet.score(ref_dir, est_dir)
             print(f"   - Ours ({self.ablation}): {fad_ours:.4f}")
             if self.fluidsynth_dir:
-                fad_fluid = self.frechet.score(ref_dir, self.fluidsynth_dir)
+                fad_fluid = self.frechet.score(ref_dir, fluid_flat_dir)
                 print(f"   - External (FluidSynth Wet): {fad_fluid:.4f}")
         except Exception as e: 
             print(f"   - FAD Computation Failed: {e}")
@@ -145,8 +153,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', default='configs/default.yaml')
     parser.add_argument('--ckpt', default='checkpoints/best_pedal_net.pth')
-    parser.add_argument('--ablation', type=str, choices=['full', 'no_lcast', 'no_dual_stage'], default='full', help="Ablation mode")
-    parser.add_argument('--fluidsynth_dir', type=str, default='', help="Path to maestro_wet_fluidsynth dir for external comparison")
+    parser.add_argument('--ablation', type=str, choices=['full', 'no_lcast', 'no_dual_stage'], default='full')
+    parser.add_argument('--fluidsynth_dir', type=str, default='')
     args = parser.parse_args()
     
     fs_dir = os.path.join(PROJECT_ROOT, args.fluidsynth_dir) if args.fluidsynth_dir else None
