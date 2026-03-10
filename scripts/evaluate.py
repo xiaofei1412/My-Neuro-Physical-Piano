@@ -135,7 +135,7 @@ class Evaluator:
             fad_ours = self.frechet.score(ref_dir, est_dir)
             print(f"   - Ours ({self.ablation}): {fad_ours:.4f}")
             if self.fluidsynth_dir:
-                fad_fluid = self.frechet.score(ref_dir, self.fluidsynth_dir) # Compare real with all fluidsynth
+                fad_fluid = self.frechet.score(ref_dir, self.fluidsynth_dir)
                 print(f"   - External (FluidSynth Wet): {fad_fluid:.4f}")
         except Exception as e: 
             print(f"   - FAD Computation Failed: {e}")
