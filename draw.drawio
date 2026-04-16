@@ -1,0 +1,444 @@
+<mxfile host="65bd71144e">
+    <diagram id="tLHfx9qPMJH0ByXYy_jB" name="第 1 页">
+        <mxGraphModel dx="873" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="bg_perception" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f5ff;strokeColor=#8faadc;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="240" width="160" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_perception" value="&lt;b style=&#39;font-size: 13px; color: #2e59a8;&#39;&gt;1. Neural Perception Module&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="250" width="200" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg_mechanical" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9eb;strokeColor=#f4c871;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="140" width="180" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_mechanical" value="&lt;b style=&#39;font-size: 13px; color: #b37b00;&#39;&gt;2. Mechanical Constraint Interface&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="150" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg_acoustic" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8ee;strokeColor=#a6cba1;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="140" width="320" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_acoustic" value="&lt;b style=&#39;font-size: 13px; color: #3d7831;&#39;&gt;3. Acoustic Constraint Engine&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="150" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_bypass" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Bypass Dry Feed&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_sum" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="60" y="80"/>
+                            <mxPoint x="930" y="80"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_dry_bot" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Dry Feed Extraction&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_exciter" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="60" y="540"/>
+                            <mxPoint x="640" y="540"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_dry_to_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="640" y="540" as="sourcePoint"/>
+                        <mxPoint x="800" y="380" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="800" y="540"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_in_mel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_mel" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_mel_unet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;" parent="1" source="node_mel" target="node_unet" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_unet_lcast" value="&lt;b style=&#39;color:#D66A00; background-color:#ffffff;&#39;&gt;Probabilities&lt;br&gt;$$ 0.0 \sim 1.0 $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_unet" target="node_lcast" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_lcast_inertia" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_lcast" target="node_inertia" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_inertia_fft" value="&lt;b style=&#39;color:#D66A00; background-color:#ffffff;&#39;&gt;$$ s_t $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_inertia" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_inertia_noise" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_inertia" target="node_noise" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_noise_sum" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Rumble $$ \beta $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_noise" target="node_sum" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="930" y="225"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_ir_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;" parent="1" source="node_ir" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="800" y="225"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_exciter_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_exciter" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="740" y="445"/>
+                            <mxPoint x="740" y="360"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_fft_sum" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Resonance $$ \alpha $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_fft" target="node_sum" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_sum_out" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_sum" target="node_out" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_in" value="&lt;b&gt;[Input]&lt;/b&gt;&lt;br&gt;Dry Audio&lt;br&gt;Signal" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1e7f0;strokeColor=#7d94b5;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="320" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_out" value="&lt;b&gt;[Output]&lt;/b&gt;&lt;br&gt;NPPS Wet&lt;br&gt;Audio" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1e7f0;strokeColor=#7d94b5;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="320" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_sum" value="&lt;b style=&#39;font-size:16px;&#39;&gt;$$ \Sigma $$&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="325" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_mel" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Mel-Spectrogram&lt;br&gt;Extraction&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="290" width="130" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_unet" value="&lt;b style=&#39;font-size:11px;&#39;&gt;PedalNet&lt;br&gt;(U-Net)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="420" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="u1" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rotation=90;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="435" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="u2" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rotation=-90;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="435" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uarr" value="" style="endArrow=classic;dashed=1;html=1;strokeColor=#666;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235" y="445" as="sourcePoint"/>
+                        <mxPoint x="255" y="445" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_noise" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Mechanism Noise&lt;br&gt;Envelope Gen.&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="200" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_inertia" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Inertia&lt;br&gt;(Mass / Delay)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="320" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="i_att" value="" style="endArrow=none;html=1;strokeColor=#ea6b66;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="450" y="360" as="sourcePoint"/>
+                        <mxPoint x="460" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i_rel" value="" style="endArrow=none;html=1;strokeColor=#73a0fa;strokeWidth=2.5;curved=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="460" y="330" as="sourcePoint"/>
+                        <mxPoint x="490" y="360" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="475" y="355"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_lcast" value="&lt;b style=&#39;font-size:11px;&#39;&gt;LCAST Trigger&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="420" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="lc1" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="450" y="455" as="sourcePoint"/>
+                        <mxPoint x="475" y="455" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc2" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="455" as="sourcePoint"/>
+                        <mxPoint x="475" y="435" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc3" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="435" as="sourcePoint"/>
+                        <mxPoint x="450" y="435" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc4" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="450" y="435" as="sourcePoint"/>
+                        <mxPoint x="450" y="455" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_ir" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Dual-Stage&lt;br&gt;Pink IR&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="200" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_p1" value="" style="endArrow=none;html=1;strokeColor=#437825;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="210" as="sourcePoint"/>
+                        <mxPoint x="670" y="235" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="d_p2" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="235" as="sourcePoint"/>
+                        <mxPoint x="690" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_fft" value="&lt;b style=&#39;font-size:11px;&#39;&gt;FFT-based&lt;br&gt;Resonance&lt;br&gt;Convolution&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="315" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_exciter" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Harmonic&lt;br&gt;Exciter&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="420" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_h1" value="" style="endArrow=none;html=1;strokeColor=#555;strokeWidth=3;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="655" y="460" as="sourcePoint"/>
+                        <mxPoint x="655" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_h2" value="" style="endArrow=none;html=1;strokeColor=#e68a00;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="665" y="460" as="sourcePoint"/>
+                        <mxPoint x="665" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_h3" value="" style="endArrow=none;html=1;strokeColor=#e68a00;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="675" y="460" as="sourcePoint"/>
+                        <mxPoint x="675" y="445" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_lp" value="" style="endArrow=none;html=1;strokeColor=#ff0000;strokeWidth=1.5;dashed=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="425" as="sourcePoint"/>
+                        <mxPoint x="685" y="465" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="UQqS1JN2ZR__wgeqH85l" name="第 1 页">
+        <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="827" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="bg_perception" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f5ff;strokeColor=#8faadc;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="240" width="180" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_perception" value="&lt;b style=&#39;font-size: 13px; color: #2e59a8;&#39;&gt;1. Neural Perception Module&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="256" width="200" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg_mechanical" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9eb;strokeColor=#f4c871;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="140" width="180" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_mechanical" value="&lt;b style=&#39;font-size: 13px; color: #b37b00;&#39;&gt;2. Mechanical Constraint Interface&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="157" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg_acoustic" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8ee;strokeColor=#a6cba1;dashed=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="140" width="320" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="title_acoustic" value="&lt;b style=&#39;font-size: 13px; color: #3d7831;&#39;&gt;3. Acoustic Constraint Engine&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="148" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_bypass" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Bypass Dry Feed&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_sum" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="60" y="80"/>
+                            <mxPoint x="930" y="80"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_dry_bot" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Dry Feed Extraction&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_exciter" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="60" y="540"/>
+                            <mxPoint x="640" y="540"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_dry_to_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="800" y="540"/>
+                        </Array>
+                        <mxPoint x="630" y="540" as="sourcePoint"/>
+                        <mxPoint x="800" y="380" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_in_mel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_in" target="node_mel" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_mel_unet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;" parent="1" source="node_mel" target="node_unet" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_unet_lcast" value="&lt;b style=&#39;color:#D66A00; background-color:#ffffff;&#39;&gt;Probabilities&lt;br&gt;$$ 0.0 \sim 1.0 $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" edge="1">
+                    <mxGeometry x="-1" y="57" relative="1" as="geometry">
+                        <mxPoint x="-16" y="2" as="offset"/>
+                        <mxPoint x="289" y="445" as="sourcePoint"/>
+                        <mxPoint x="364" y="445" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_lcast_inertia" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_lcast" target="node_inertia" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_inertia_fft" value="&lt;b style=&#39;color:#D66A00; background-color:#ffffff;&#39;&gt;$$ s_t $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_inertia" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_inertia_noise" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#D66A00;dashed=1;endArrow=block;" parent="1" source="node_inertia" target="node_noise" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_noise_sum" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Rumble $$ \beta $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" edge="1">
+                    <mxGeometry x="-0.0189" y="35" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="930" y="226"/>
+                        </Array>
+                        <mxPoint x="500" y="226" as="sourcePoint"/>
+                        <mxPoint x="930" y="326" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_ir_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;" parent="1" source="node_ir" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="800" y="225"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_exciter_fft" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_exciter" target="node_fft" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="760" y="445"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_fft_sum" value="&lt;b style=&#39;color:#2B3E50; background-color:#ffffff;&#39;&gt;Resonance $$ \alpha $$&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_fft" target="node_sum" edge="1">
+                    <mxGeometry x="-1" y="55" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_sum_out" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#2B3E50;endArrow=block;" parent="1" source="node_sum" target="node_out" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_in" value="&lt;b&gt;[Input]&lt;/b&gt;&lt;br&gt;Dry Audio&lt;br&gt;Signal" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1e7f0;strokeColor=#7d94b5;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="320" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_out" value="&lt;b&gt;[Output]&lt;/b&gt;&lt;br&gt;NPPS Wet&lt;br&gt;Audio" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1e7f0;strokeColor=#7d94b5;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="320" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_sum" value="&lt;b style=&#39;font-size:16px;&#39;&gt;$$ \Sigma $$&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ffffff;strokeColor=#666666;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="325" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_mel" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Mel-Spectrogram&lt;br&gt;Extraction&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="290" width="130" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_unet" value="&lt;b style=&#39;font-size:11px;&#39;&gt;PedalNet&lt;br&gt;(U-Net)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="420" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="u1" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rotation=90;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="435" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="u2" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rotation=-90;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="435" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uarr" value="" style="endArrow=classic;dashed=1;html=1;strokeColor=#666;entryX=0.506;entryY=0.17;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1" target="u2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="238" y="445" as="sourcePoint"/>
+                        <mxPoint x="258" y="445" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_noise" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Mechanism Noise&lt;br&gt;Envelope Gen.&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="200" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_inertia" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Inertia&lt;br&gt;(Mass / Delay)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="320" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="i_att" value="" style="endArrow=none;html=1;strokeColor=#ea6b66;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="454" y="360" as="sourcePoint"/>
+                        <mxPoint x="464" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i_rel" value="" style="endArrow=none;html=1;strokeColor=#73a0fa;strokeWidth=2.5;curved=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="478" y="355"/>
+                        </Array>
+                        <mxPoint x="463" y="330" as="sourcePoint"/>
+                        <mxPoint x="493" y="360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_lcast" value="&lt;b style=&#39;font-size:11px;&#39;&gt;LCAST Trigger&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="420" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="lc1" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="460" y="455" as="sourcePoint"/>
+                        <mxPoint x="485" y="455" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc2" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="455" as="sourcePoint"/>
+                        <mxPoint x="485" y="435" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc3" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="435" as="sourcePoint"/>
+                        <mxPoint x="460" y="435" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="lc4" value="" style="endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="460" y="435" as="sourcePoint"/>
+                        <mxPoint x="460" y="455" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_ir" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Dual-Stage&lt;br&gt;Pink IR&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="200" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="d_p1" value="" style="endArrow=none;html=1;strokeColor=#437825;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="210" as="sourcePoint"/>
+                        <mxPoint x="670" y="235" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="d_p2" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="235" as="sourcePoint"/>
+                        <mxPoint x="690" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="node_fft" value="&lt;b style=&#39;font-size:11px;&#39;&gt;FFT-based&lt;br&gt;Resonance&lt;br&gt;Convolution&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="315" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="node_exciter" value="&lt;b style=&#39;font-size:11px;&#39;&gt;Harmonic&lt;br&gt;Exciter&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="420" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_h1" value="" style="endArrow=none;html=1;strokeColor=#555;strokeWidth=3;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="655" y="460" as="sourcePoint"/>
+                        <mxPoint x="655" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_h2" value="" style="endArrow=none;html=1;strokeColor=#e68a00;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="665" y="460" as="sourcePoint"/>
+                        <mxPoint x="665" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_h3" value="" style="endArrow=none;html=1;strokeColor=#e68a00;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="675" y="460" as="sourcePoint"/>
+                        <mxPoint x="675" y="445" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_lp" value="" style="endArrow=none;html=1;strokeColor=#ff0000;strokeWidth=1.5;dashed=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="685" y="425" as="sourcePoint"/>
+                        <mxPoint x="685" y="465" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
