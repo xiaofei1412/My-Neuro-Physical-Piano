@@ -56,22 +56,19 @@ rects2 = ax.bar(x + width/2, means[:, 1], width, yerr=cis[:, 1],
 
 ax.set_ylabel('Mean Opinion Score (1-5)', fontweight='bold')
 
-ax.set_title('Subjective Perceptual Evaluation (with 95% CI)', fontweight='bold', pad=45)
+ax.set_title('Subjective Perceptual Evaluation (with 95% CI)', fontweight='bold', pad=15)
 ax.set_xticks(x)
 ax.set_xticklabels(labels_metrics, fontweight='bold')
 
-# Raise the upper limit of the Y-axis to prevent data or error bars from hitting the top
-ax.set_ylim(1.0, 6.2) 
-
-# The legend is placed at the top edge of the plotting area, precisely between the title and the bar chart
-ax.legend(loc='lower center', bbox_to_anchor=(0.5, 1.02), ncol=2, frameon=True, edgecolor='black')
+ax.set_ylim(1.0, 5.5) 
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=True, edgecolor='black')
 
 def autolabel(rects):
     for rect in rects:
         height = rect.get_height()
         ax.annotate(f'{height:.2f}',
                     xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 20),  
+                    xytext=(0, 20), 
                     textcoords="offset points",
                     ha='center', va='bottom', fontsize=13, fontweight='bold')
 
